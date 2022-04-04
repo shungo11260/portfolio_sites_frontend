@@ -1,0 +1,10 @@
+version: '1'
+name: portfolio_sites_frontend
+services:
+  frontend:
+    build: .
+    volumes:
+      - .:/home/portfolio_sites/frontend
+    ports:
+      - 8081:3000
+    tty: true
