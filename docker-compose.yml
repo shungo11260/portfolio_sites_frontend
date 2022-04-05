@@ -1,5 +1,5 @@
 version: '1'
-name: portfolio_sites_frontend
+name: portfolio_sites-frontend
 services:
   frontend:
     build: .
