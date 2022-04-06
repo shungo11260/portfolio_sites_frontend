@@ -1,14 +1,16 @@
 <template>
   <div>
-    {{ tasks }}
+    {{ board }}
   </div>
 </template>
 
 <script>
 export default {
-  async asyncData({ app }) {
-    const tasks = await app.$axios.$get(process.env.API_BASE + '/api/tasks')
-    return { tasks }
+  async asyncData({ app, params }) {
+    const board = await app.$axios.$get(
+      process.env.API_BASE + '/api/boards/' + params.id
+    )
+    return { board }
   },
 }
 </script>
