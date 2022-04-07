@@ -1,8 +1,22 @@
 <template>
   <v-container>
-    <v-card v-for="list in res.lists" :key="list.id">
-      <v-card-title>{{ list.title }}</v-card-title>
-    </v-card>
+    <v-row>
+      <v-col v-for="list in res.lists" :key="list.id">
+        <v-card elevation="6">
+          <v-card-title>{{ list.title }}</v-card-title>
+        </v-card>
+      </v-col>
+      <v-col>
+        <v-card elevation="6">
+          <v-card-actions>
+            <v-btn>
+              <v-icon>mdi-plus</v-icon>
+              add list
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 
