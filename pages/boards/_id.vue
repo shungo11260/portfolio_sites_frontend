@@ -9,11 +9,23 @@
       <v-col>
         <v-card elevation="6">
           <v-card-actions>
-            <v-btn>
+            <v-btn @click="reveal = true">
               <v-icon>mdi-plus</v-icon>
-              add list
+              add one more list
             </v-btn>
           </v-card-actions>
+          <v-expand-transition>
+            <v-card
+              v-if="reveal"
+              v-click-outside="onClickOutsideForm"
+              class="fade-transition v-card-reveal"
+            >
+              <v-form>
+                <v-text-field v-model="model" label="title"></v-text-field>
+                <v-btn type="submit"> add list </v-btn>
+              </v-form>
+            </v-card>
+          </v-expand-transition>
         </v-card>
       </v-col>
     </v-row>
@@ -28,5 +40,25 @@ export default {
     )
     return { result }
   },
+  data: () => ({
+    reveal: false,
+  }),
+  methods: {
+    onClickOutsideForm() {
+      this.reveal = false
+    },
+    // async submit() {
+    //   const response = await app.$axios.$
+    // },
+  },
 }
 </script>
+
+<style>
+.v-card-reveal {
+  top: 0;
+  opacity: 1 !important;
+  position: absolute;
+  width: 100%;
+}
+</style>
