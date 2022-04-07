@@ -48,9 +48,13 @@ export default {
     newList: {
       list: {
         title: '',
+        board_id: '',
       },
     },
   }),
+  mounted() {
+    this.newList.list.board_id = this.$route.params.id
+  },
   methods: {
     onClickOutsideForm() {
       this.reveal = false
