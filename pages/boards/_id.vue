@@ -20,8 +20,11 @@
               v-click-outside="onClickOutsideForm"
               class="fade-transition v-card-reveal"
             >
-              <v-form>
-                <v-text-field v-model="model" label="title"></v-text-field>
+              <v-form @submit.prevent="onSubmit">
+                <v-text-field
+                  v-model="newList.list.title"
+                  label="title"
+                ></v-text-field>
                 <v-btn type="submit"> add list </v-btn>
               </v-form>
             </v-card>
@@ -42,14 +45,19 @@ export default {
   },
   data: () => ({
     reveal: false,
+    newList: {
+      list: {
+        title: '',
+      },
+    },
   }),
   methods: {
     onClickOutsideForm() {
       this.reveal = false
     },
-    // async submit() {
-    //   const response = await app.$axios.$
-    // },
+    async onSubmit() {
+      await this.$axios.$post(process.env.API_BASE + '/api/lists', this.newList)
+    },
   },
 }
 </script>
