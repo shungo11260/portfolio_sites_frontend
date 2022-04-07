@@ -4,6 +4,15 @@
       <v-col v-for="list in result.lists" :key="list.id">
         <v-card elevation="6">
           <v-card-title>{{ list.title }}</v-card-title>
+          <v-card
+            v-for="task in result.tasks.filter(
+              (task) => task.list_id === list.id
+            )"
+            :key="task.id"
+            elevation="6"
+          >
+            <v-card-title>{{ task.title }}</v-card-title>
+          </v-card>
         </v-card>
       </v-col>
       <v-col>
