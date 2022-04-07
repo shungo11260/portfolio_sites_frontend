@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <v-row>
-      <v-col v-for="list in res.lists" :key="list.id">
+      <v-col v-for="list in result.lists" :key="list.id">
         <v-card elevation="6">
           <v-card-title>{{ list.title }}</v-card-title>
         </v-card>
@@ -23,10 +23,10 @@
 <script>
 export default {
   async asyncData({ app, params }) {
-    const res = await app.$axios.$get(
+    const result = await app.$axios.$get(
       process.env.API_BASE + '/api/boards/' + params.id
     )
-    return { res }
+    return { result }
   },
 }
 </script>
