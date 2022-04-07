@@ -1,7 +1,9 @@
 <template>
-  <div>
-    {{ boards }}
-  </div>
+  <v-container>
+    <v-card v-for="board in boards" :key="board.id" :to="'/boards/' + board.id">
+      <v-card-title>{{ board.title }}</v-card-title>
+    </v-card>
+  </v-container>
 </template>
 
 <script>
