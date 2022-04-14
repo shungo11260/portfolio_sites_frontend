@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <v-row>
-      <v-col v-for="list in result.lists" :key="list.id">
+      <v-col v-for="list in result.lists" :key="list.id" :ref="'lists'">
         <v-card elevation="6">
           <v-card-title>{{ list.title }}</v-card-title>
           <v-card
@@ -22,7 +22,10 @@
           <v-expand-transition>
             <v-card
               v-if="reveal === list.id.toString()"
-              v-click-outside="onClickOutsideForm"
+              v-click-outside="{
+                handler: onClickOutsideForm,
+                include: cards,
+              }"
               class="fade-transition"
             >
               <v-form @submit.prevent="onTaskSubmit">
@@ -36,7 +39,7 @@
           </v-expand-transition>
         </v-card>
       </v-col>
-      <v-col>
+      <v-col :ref="'addList'">
         <v-card elevation="6">
           <v-card-actions>
             <v-btn @click="reveal = '0'">
@@ -47,7 +50,10 @@
           <v-expand-transition>
             <v-card
               v-if="reveal === '0'"
-              v-click-outside="onClickOutsideForm"
+              v-click-outside="{
+                handler: onClickOutsideForm,
+                include: cards,
+              }"
               class="fade-transition v-card-reveal"
             >
               <v-form @submit.prevent="onSubmit">
@@ -94,6 +100,13 @@ export default {
   methods: {
     onClickOutsideForm() {
       this.reveal = ''
+    },
+    cards() {
+      const cardElements = Object.values(this.$refs.lists).map(
+        (element) => element.firstElementChild.lastElementChild
+      )
+      cardElements.push(this.$refs.addList.firstElementChild.lastElementChild)
+      return cardElements
     },
     async onSubmit() {
       await this.$axios.$post(process.env.API_BASE + '/api/lists', this.newList)
