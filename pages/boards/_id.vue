@@ -13,19 +13,40 @@
           >
             <v-card-title>{{ task.title }}</v-card-title>
           </v-card>
+          <v-card-actions>
+            <v-btn @click="reveal = list.id.toString()">
+              <v-icon>mdi-plus</v-icon>
+              add task
+            </v-btn>
+          </v-card-actions>
+          <v-expand-transition>
+            <v-card
+              v-if="reveal === list.id.toString()"
+              v-click-outside="onClickOutsideForm"
+              class="fade-transition"
+            >
+              <v-form @submit.prevent="onTaskSubmit">
+                <v-text-field
+                  v-model="newTask.task.title"
+                  label="title"
+                ></v-text-field>
+                <v-btn type="submit"> add task </v-btn>
+              </v-form>
+            </v-card>
+          </v-expand-transition>
         </v-card>
       </v-col>
       <v-col>
         <v-card elevation="6">
           <v-card-actions>
-            <v-btn @click="reveal = true">
+            <v-btn @click="reveal = '0'">
               <v-icon>mdi-plus</v-icon>
               add one more list
             </v-btn>
           </v-card-actions>
           <v-expand-transition>
             <v-card
-              v-if="reveal"
+              v-if="reveal === '0'"
               v-click-outside="onClickOutsideForm"
               class="fade-transition v-card-reveal"
             >
@@ -53,11 +74,17 @@ export default {
     return { result }
   },
   data: () => ({
-    reveal: false,
+    reveal: '',
     newList: {
       list: {
         title: '',
         board_id: '',
+      },
+    },
+    newTask: {
+      task: {
+        title: '',
+        list_id: '',
       },
     },
   }),
@@ -66,10 +93,13 @@ export default {
   },
   methods: {
     onClickOutsideForm() {
-      this.reveal = false
+      this.reveal = ''
     },
     async onSubmit() {
       await this.$axios.$post(process.env.API_BASE + '/api/lists', this.newList)
+    },
+    async onTaskSubmit() {
+      await this.$axios.$post(process.env.API_BASE + '/api/tasks', this.newTask)
     },
   },
 }
