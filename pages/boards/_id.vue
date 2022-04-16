@@ -28,7 +28,7 @@
               }"
               class="fade-transition"
             >
-              <v-form @submit.prevent="onTaskSubmit">
+              <v-form @submit.prevent="onTaskSubmit(list.id)">
                 <v-text-field
                   v-model="newTask.task.title"
                   label="title"
@@ -110,9 +110,12 @@ export default {
     },
     async onSubmit() {
       await this.$axios.$post(process.env.API_BASE + '/api/lists', this.newList)
+      this.$nuxt.refresh()
     },
-    async onTaskSubmit() {
+    async onTaskSubmit(listId) {
+      this.newTask.task.list_id = listId
       await this.$axios.$post(process.env.API_BASE + '/api/tasks', this.newTask)
+      this.$nuxt.refresh()
     },
   },
 }
